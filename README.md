@@ -41,7 +41,7 @@ Welcome to **Eleven**, the premium, minimalistic yet feature-packed music bot fo
 Follow these simple steps to get **Eleven** running on your server:
 
 1. **Clone the repository**  
-   `git clone https://github.com/YourUsername/Eleven.git`
+   `git clone https://github.com/akshew/Eleven-v2.git`
 
 2. **Install dependencies**  
    Make sure you have Node.js installed (v16 or higher) and run the following command:
