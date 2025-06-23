@@ -56,13 +56,7 @@ Follow these simple steps to get **Eleven** running on your server:
    Start the bot with:
    ```bash
    node index.js
-   ```
-
-5. **Invite the bot**  
-   Use the following link to invite **Eleven** to your server and enjoy the music:
-   ```bash
-   https://discord.com/oauth2/authorize?client_id=YOUR_CLIENT_ID&scope=bot&permissions=YOUR_PERMISSIONS
-   ```
+   ````
 
 ---
 
@@ -78,13 +72,4 @@ Eleven isn’t just another music bot — it’s a **premium experience**. It of
 
 ---
 
-## 📄 License
 
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for more details.
-
----
-
-## 🎉 Get Started with Eleven Today!
-
-Ready to bring the music to your Discord server? Download **Eleven** now and start enjoying the best music experience possible. 🎶
-```
