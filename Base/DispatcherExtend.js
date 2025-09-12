@@ -5,12 +5,12 @@ module.exports = class PlayerExtends extends KazagumoPlayer {
     /**
      *
      * @param {import("kazagumo").Kazagumo} kazagumo
-     * @param {import("shoukaku").Player} dispatcher
+     * @param {import("shoukaku").Player} shoukaku
      * @param {String} options
      * @param {String} data
      */
-    constructor(kazagumo, dispatcher, options) {
-        super(kazagumo, dispatcher, options);
+    constructor(kazagumo, shoukaku, options) {
+        super(kazagumo, shoukaku, options);
         this.filter = false;
         this.speedAmount = 1;
         this.rateAmount = 1;
@@ -30,6 +30,7 @@ module.exports = class PlayerExtends extends KazagumoPlayer {
         this.earrape = false;
         this.message;
         this.autoplay = false;
+        this.sleepTimer = null;
     }
     async setNowplayingMessage(message) {
         if (this.message) await this.message.delete().catch(() => {});
@@ -76,9 +77,7 @@ module.exports = class PlayerExtends extends KazagumoPlayer {
         if (!this.filter) this.filter = true;
         this.speedAmount = Math.max(Math.min(amount, 5), 0.05);
 
-        this.shoukaku.setFilters({
-            op: "filters",
-            guildId: this.guildId,
+        this.shoukaku.filters.setTimescale({
             timescale: {
                 speed: this.speedAmount,
                 rate: this.rateAmount,

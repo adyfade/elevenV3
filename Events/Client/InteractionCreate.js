@@ -1,4 +1,4 @@
-const { PermissionsBitField, ChannelType } = require('discord.js');
+const { PermissionsBitField, ChannelType, InteractionType } = require('discord.js');
 const DjSchema = require('../../Models/Dj');
 
 module.exports = {
@@ -8,11 +8,23 @@ module.exports = {
      * @param {import('discord.js').Interaction} interaction
      */
     async execute(client, interaction) {
+        // Handle button interactions
         if (interaction.isButton()) {
-            client.emit('ButtonInteraction', interaction)
+            return client.emit('ButtonInteraction', interaction);
         }
-        // Check if interaction is a command or context menu command
-        if (!interaction.isCommand() && !interaction.isContextMenuCommand()) return;
+        
+        // Handle slash command interactions
+        if (interaction.type === InteractionType.ApplicationCommand) {
+            return client.emit('CommandInteraction', interaction);
+        }
+        
+        // Handle select menu interactions
+        if (interaction.isStringSelectMenu()) {
+            return client.emit('SelectMenuInteraction', interaction);
+        }
+    }
+};
+
 
         // Get the command from the client
         const command = client.commands.get(interaction.commandName);

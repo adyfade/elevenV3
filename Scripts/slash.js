@@ -8,7 +8,7 @@ const config = require("../Config.js");
  * @param {import('../Main')} client
  */
 module.exports = async (client) => {
-    const slashCommandsPath = join(__dirname, "..", "SlashCommands");
+    const slashCommandsPath = join(__dirname, "..", "slashCommands");
     const commands = [];
     let count = 0;
 
@@ -23,7 +23,7 @@ module.exports = async (client) => {
 
         for (const file of commandFiles) {
             try {
-                const commandPath = `../SlashCommands/${folder}/${file}`;
+                const commandPath = `../slashCommands/${folder}/${file}`;
                 delete require.cache[require.resolve(commandPath)];
                 const command = require(commandPath);
 
@@ -34,6 +34,7 @@ module.exports = async (client) => {
                 }
 
                 if (command.data && typeof command.data.toJSON === "function") {
+                    client.applicationCommands.set(command.data.name, command);
                     commands.push(command.data.toJSON());
                     count++;
                     console.log(`Successfully loaded command: ${file}`);

@@ -13,7 +13,7 @@ const { connect, connection, set } = require("mongoose");
 const Utils = require("../Handler/Utils");
 const { Api } = require("@top-gg/sdk");
 const { Kazagumo } = require("kazagumo");
-const { Connectors } = require("shoukaku");
+const { Shoukaku, Connectors } = require("shoukaku");
 const PlayerExtends = require("./DispatcherExtend");
 
 const Intents = [
@@ -52,7 +52,6 @@ class Main extends Client {
                 Partials.User,
                 Partials.Reaction,
             ],
-            ws: Intents,
             presence: {
                 activities: [{ name: "1help | 1play", type: ActivityType.Listening }],
                 status: "idle",
@@ -61,6 +60,7 @@ class Main extends Client {
             restRequestTimeout: 20000,
         });
         this.Commands = new Collection();
+        this.applicationCommands = new Collection();
         this.premiums = new Collection();
         this.ButtonInt = new Collection();
         this.Cooldown = new Collection();
@@ -123,6 +123,15 @@ class Main extends Client {
     }
 
     async _loadPlayer() {
+        // Initialize Shoukaku first for Lavalink v4 compatibility
+        this.shoukaku = new Shoukaku(new Connectors.DiscordJS(this), this.config.Nodes, {
+            moveOnDisconnect: false,
+            resumable: false,
+            resumableTimeout: 30,
+            reconnectTries: 2,
+            restTimeout: 10000
+        });
+
         this.dispatcher = new Kazagumo(
             {
                 defaultSearchEngine: "youtube_music",
@@ -133,8 +142,7 @@ class Main extends Client {
                     if (guild) guild.shard.send(payload);
                 },
             },
-            new Connectors.DiscordJS(this),
-            this.config.Nodes,
+            this.shoukaku
         );
         return this.dispatcher;
     }
