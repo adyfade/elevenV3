@@ -1,5 +1,5 @@
 import 'dotenv/config';
-import { Client, GatewayIntentBits, Partials, ActivityType, Collection } from 'discord.js';
+import { Client, GatewayIntentBits, Partials, ActivityType, Collection, EmbedBuilder, ButtonBuilder, ActionRowBuilder, StringSelectMenuBuilder } from 'discord.js';
 import { Shoukaku, Connectors } from 'shoukaku';
 import { Kazagumo } from 'kazagumo';
 import mongoose from 'mongoose';
@@ -278,7 +278,6 @@ class ElevenMusicBot extends Client {
      * Create embed with default styling
      */
     embed(data = {}) {
-        const { EmbedBuilder } = await import('discord.js');
         return new EmbedBuilder({
             color: parseInt(this.config.embedColor.replace('#', ''), 16),
             ...data
@@ -289,7 +288,6 @@ class ElevenMusicBot extends Client {
      * Create button component
      */
     button(data = {}) {
-        const { ButtonBuilder } = await import('discord.js');
         return new ButtonBuilder(data);
     }
 
@@ -297,7 +295,6 @@ class ElevenMusicBot extends Client {
      * Create action row
      */
     row(data = {}) {
-        const { ActionRowBuilder } = await import('discord.js');
         return new ActionRowBuilder(data);
     }
 
@@ -305,7 +302,6 @@ class ElevenMusicBot extends Client {
      * Create select menu
      */
     selectMenu(data = {}) {
-        const { StringSelectMenuBuilder } = await import('discord.js');
         return new StringSelectMenuBuilder(data);
     }
 }
