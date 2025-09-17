@@ -1,9 +1,9 @@
-const { WebhookClient, ActionRowBuilder, ButtonBuilder, ButtonStyle } = require('discord.js');
+import { WebhookClient, ActionRowBuilder, ButtonBuilder, ButtonStyle } from 'discord.js';
 
-module.exports = new Object({
+export default {
     name: 'guildCreate',
     /**
-     * @param {import("../../Main")} client
+     * @param {import("../../index.js").default} client
      * @param {import("discord.js").Guild} guild
      */
     async execute(client, guild) {
@@ -11,7 +11,7 @@ module.exports = new Object({
         if (!hook) return;
 
         const embed = client.embed() // Uses the new embed method
-            .setColor(client.color)
+            .setColor(client.config.embedColor)
             .setAuthor({ name: `${client.user.username} has been added to a guild.`, iconURL: guild.iconURL({ dynamic: true }), url: client.config.links.support })
             .setTitle(`${guild.name}`)
             .setThumbnail(guild.iconURL({ dynamic: true }))
@@ -56,4 +56,4 @@ module.exports = new Object({
 
         return await hook.send({ embeds: [embed] }).catch(() => { });
     },
-});
+};

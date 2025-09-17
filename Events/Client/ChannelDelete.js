@@ -1,5 +1,6 @@
-const db = require('../../Models/Setup')
-module.exports = new Object({
+import db from '../../Models/Setup.js';
+
+export default {
     name: "channelDelete",
     /**
      * @param {import("discord.js").TextChannel} channel
@@ -12,4 +13,4 @@ module.exports = new Object({
             }
         }
     }
-})
+};

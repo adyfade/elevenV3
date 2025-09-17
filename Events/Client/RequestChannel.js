@@ -1,15 +1,15 @@
-const { playerhandler } = require('../../Handler/RequestChannelEvent');
-const { PermissionFlagsBits } = require('discord.js');
+import { playerhandler } from '../../Handler/RequestChannelEvent.js';
+import { PermissionFlagsBits } from 'discord.js';
 
-module.exports = new Object({
+export default {
     name: 'requestChannel',
     /**
      *
-     * @param {import("../../Main")} client
+     * @param {import("../../index.js").default} client
      * @param {import('discord.js').Message} message
      */
     async execute(client, message) {
-        const color = client.color ? client.color : '#f50a83';
+        const color = client.config.embedColor ? client.config.embedColor : '#f50a83';
         if (message.author.bot) return;
         const escapeRegex = (str) => str.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
         const prefix = await client.util.getPrefix(message.guildId, client);
@@ -20,8 +20,8 @@ module.exports = new Object({
             const [, matchedPrefix] = message.content.match(prefixRegex);
             args = message.content.slice(matchedPrefix.length).trim().split(/ +/);
             cmd = args.shift().toLowerCase();
-            var command = client.Commands.get(cmd);
-            if (!command) command = client.Commands.get(client.Aliases.get(cmd));
+            var command = client.commands.get(cmd);
+            if (!command) command = client.commands.get(client.aliases.get(cmd));
             if (command) {
                 if (message.content) message.delete()
                 return client.util.oops(message.channel, "**Please use a Command Somewhere else!**", color)
@@ -45,8 +45,8 @@ module.exports = new Object({
             if (message) await message.delete().catch(() => { });
             return;
         }
-        let dispatcher = client.dispatcher.players.get(message.guildId);
-        if (!dispatcher) dispatcher = await client.dispatcher.createPlayer({
+        let dispatcher = client.kazagumo.players.get(message.guildId);
+        if (!dispatcher) dispatcher = await client.kazagumo.createPlayer({
             guildId: message.guildId,
             textId: message.channelId,
             voiceId: message.member.voice.channelId,
@@ -56,4 +56,4 @@ module.exports = new Object({
         if (message) await message.delete().catch(() => { });
         return await playerhandler(message.content, dispatcher, message, color, client);
     }
-});
+};

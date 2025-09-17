@@ -1,11 +1,11 @@
-const { WebhookClient } = require('discord.js');
-const setup = require('../../Models/Setup');
-const dj = require('../../Models/Dj');
-const announce = require('../../Models/Announce');
-const prefix = require('../../Models/Prefix');
-const _247 = require('../../Models/247');
+import { WebhookClient } from 'discord.js';
+import setup from '../../Models/Setup.js';
+import dj from '../../Models/Dj.js';
+import announce from '../../Models/Announce.js';
+import prefix from '../../Models/Prefix.js';
+import _247 from '../../Models/247.js';
 
-module.exports = new Object({
+export default {
     name: 'guildDelete',
 
     async execute(client, guild) {
@@ -35,7 +35,7 @@ module.exports = new Object({
                 { name: "Guild Default Message Notifications", value: '`' + guild.defaultMessageNotifications + '`', inline: true },
                 { name: "Guild Count", value: `\`${client.guilds.cache.size}\``, inline: true },
             )
-            .setColor(client.color);
+            .setColor(client.config.embedColor);
         if (hook) await hook.send({ embeds: [embed] }).catch(() => {});
 
         try {
@@ -50,4 +50,4 @@ module.exports = new Object({
             console.error(`Could not send farewell message to the guild owner (${guild.name}, ID: ${guild.id}): ${e.message}`);
         }
     },
-});
+};
