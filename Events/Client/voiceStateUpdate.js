@@ -1,15 +1,13 @@
-const Client = require("../../Main");
-const { VoiceState, EmbedBuilder } = require("discord.js");
-const MusicBot = require("../../Base/Client");
-const Model = require("../../Models/247");
+import { VoiceState, EmbedBuilder } from "discord.js";
+import Model from "../../Models/247.js";
 
-module.exports = {
+export default {
   name: "voiceStateUpdate",
 
-  run: async (client, oldState, newState) => {
+  execute: async (client, oldState, newState) => {
     // get guild and player
     let guildId = newState.guild.id;
-    const player = client.manager.get(guildId);
+    const player = client.kazagumo.players.get(guildId);
 
     // check if the bot is active (playing, paused or empty does not matter (return otherwise)
     if (!player || player.state !== "CONNECTED") return;
@@ -25,7 +23,7 @@ module.exports = {
           embeds: [
             new EmbedBuilder()
               .setDescription("Player has been Disconnected from Voice Channnel")
-              .setColor(client.embedColor),
+              .setColor(client.config.embedColor),
           ],
         });
       }
@@ -79,7 +77,7 @@ module.exports = {
         if (stateChange.members.size >= 1 && player.paused) {
           let emb = new EmbedBuilder()
             .setAuthor({ name: `Resuming paused queue` })
-            .setColor(client.embedColor)
+            .setColor(client.config.embedColor)
             .setDescription(
               `Resuming playback because all of you left me with music to play all alone`
             );
@@ -98,7 +96,7 @@ module.exports = {
 
           let emb = new EmbedBuilder()
             .setAuthor({ name: `Paused!` })
-            .setColor(client.embedColor)
+            .setColor(client.config.embedColor)
             .setDescription(
               `The player has been paused because everybody left`
             );
